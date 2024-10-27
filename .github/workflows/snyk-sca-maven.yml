@@ -19,7 +19,7 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
-          java-version: '17'  # Update to Java 17
+          java-version: '17'  # Ensure this matches your project's Java version
           distribution: 'temurin'  
 
       - name: Build with Maven
@@ -27,10 +27,11 @@ jobs:
 
 
       - name: Run Snyk Maven Dependency Scan
-        uses: snyk/actions@0.4.0  # Ensure this version is valid
+        uses: snyk/actions@0.4.0
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: test --all-projects --file=pom.xml
+          args: test --file=pom.xml  # Use --file to specify the Maven project
+
 
 

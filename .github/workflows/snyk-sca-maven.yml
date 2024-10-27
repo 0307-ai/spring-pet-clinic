@@ -26,7 +26,8 @@ jobs:
         run: mvn -B package --file pom.xml
 
       - name: Run Snyk Maven Dependency Scan
-        uses: snyk/actions@v1.695.0  
+        uses: snyk/actions@v1.692.0  
+
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:

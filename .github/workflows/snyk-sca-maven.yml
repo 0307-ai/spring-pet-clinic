@@ -1,11 +1,32 @@
-name: Example workflow for Maven using Snyk
-on: push
+name: Snyk Maven Dependency Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
 jobs:
-  security:
+  snyk_scan:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/maven-3-jdk-22@master
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'  # Specify your project's Java version
+
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml  # Builds project dependencies
+
+      - name: Run Snyk Maven Dependency Scan
+        uses: snyk/actions@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: test --all-projects --file=pom.xml

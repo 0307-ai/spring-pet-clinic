@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   build:
@@ -20,13 +17,12 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '11'
-          distribution: 'adopt'
 
       - name: Build with Maven
         run: mvn clean package
 
       - name: SonarQube Scan
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Default GitHub token
-          SONAR_TOKEN: ${{ squ_dc6c35ac72a1d8e64ef23026585e581b122b7446 }} # Token you will add to GitHub secrets
+          SONAR_TOKEN:"squ_dc6c35ac72a1d8e64ef23026585e581b122b7446"
         run: mvn sonar:sonar -Dsonar.projectKey=your_project_key -Dsonar.login=${{ secrets.SONAR_TOKEN }} -Dsonar.host.url=http://your-sonarqube-server:9000
+
